@@ -1,0 +1,4 @@
+{
+    "source": "./server-src",
+    "destination": "./esdoc"
+}
