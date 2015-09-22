@@ -1,24 +1,15 @@
 var path = require("path"),
-    webpack = require("webpack"),
-    fs = require('fs'),
-    nodeModules = {};
-
-fs.readdirSync('node_modules')
-    .filter(function(x) {
-        return ['.bin'].indexOf(x) === -1;
-    })
-    .forEach(function(mod) {
-        nodeModules[mod] = 'commonjs ' + mod;
-    });
+    webpack = require("webpack");
 
 module.exports = [
     {
-        context: path.join(__dirname, "server-src"),
-        entry: "./app",
-        target: "node",
+        context: path.join(__dirname, "server-src/client-src"),
+        entry: {
+            app: "./js/app.js"
+        },
         output: {
-            filename: "[name].entry.js",
-            path: path.join(__dirname, "server-build")
+            filename: "[name].js",
+            path: path.join(__dirname, "client-build")
         },
         module: {
             loaders: [
@@ -26,6 +17,10 @@ module.exports = [
                     test: /\.js?$/,
                     exclude: /node_modules/,
                     loader: 'babel-loader'
+                },
+                {
+                    test: /\.scss$/,
+                    loader: "style!css!sass"
                 }
             ]
         },
@@ -33,6 +28,14 @@ module.exports = [
             modulesDirectories: ['node_modules'],
             extensions: ['', '.js']
         },
-        externals: nodeModules
+        plugins: [
+            new webpack.DefinePlugin({
+                "process.env": {
+                    BROWSER: JSON.stringify(true)
+                }
+            })
+        ]
     }
 ];
+
+
