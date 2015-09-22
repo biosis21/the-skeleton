@@ -36,5 +36,5 @@
     "buildw": "./node_modules/.bin/webpack --watch --progress --colors --config ./webpack.config.js"
   },
   "author": "Mykola Savenko <biosis21@gmail.com>",
-  "license": "MIT"
+  "license": "ISC"
 }
